@@ -2,8 +2,19 @@ import type { RouteObject } from "react-router-dom";
 import HomePage from "../layouts/HomePage";
 import Lesson from "../page/Dashboard/Lesson";
 import ErrorPage from "../page/ErrorPage";
+import Pronounciation from "../page/Dashboard/Pronounciation";
+import Listening from "../page/Dashboard/Listening";
+import Flashcard from "../page/Dashboard/Flashcard";
+import Profile from "../page/Dashboard/Profile";
+import HelpSection from "../page/Dashboard/HelpSection";
+import Login from "../authentication/Login";
 
 const routes: RouteObject[] = [
+    {
+        path:"/logout",
+        element: (<Login />)
+    }
+    ,
     {
         path: "/",
         element: (<HomePage />),
@@ -14,9 +25,27 @@ const routes: RouteObject[] = [
             {
                 path: "lesson", element: (<Lesson />)
             }
+            ,
+            {
+                path: "pronounciation", element: (<Pronounciation />)
+            }
+            ,
+            {
+                path: "listening", element: (<Listening />)
+            }
+            ,
+            {
+                path: "flashcard", element: (<Flashcard />)
+            },
+            {
+                path: "profile", element: (<Profile />)
+            },
+            {
+                path: "help", element: (<HelpSection />)
+            }
         ]
     },
-    { path:"*", element:(<ErrorPage />) }
+    { path: "*", element: (<ErrorPage />) }
 
 ];
 
