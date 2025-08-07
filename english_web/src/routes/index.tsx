@@ -8,10 +8,15 @@ import Flashcard from "../page/Dashboard/Flashcard";
 import Profile from "../page/Dashboard/Profile";
 import HelpSection from "../page/Dashboard/HelpSection";
 import Login from "../authentication/Login";
+import Register from "../authentication/Register";
 
 const routes: RouteObject[] = [
+     {
+        path:"/register",
+        element: (<Register />)
+    },
     {
-        path:"/logout",
+        path:"/login",
         element: (<Login />)
     }
     ,
