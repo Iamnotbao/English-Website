@@ -3,22 +3,31 @@ import SendIcon from '@mui/icons-material/Send';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import BackGround from "../assets/image/background.jpg"
+import AuthService from '../service/AuthService';
 const Login = () => {
     const [selectedValue, setSelectedValue] = useState(true);
     const navigation = useNavigate();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedValue(event.target.checked);
     };
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log("Form submitted");
         const form = e.currentTarget;
         const user = {
-            usernameOrEmail: form.usernameOrEmail.value,
+            username: form.usernameOrEmail.value,
             password: form.password.value
         }
         console.log("User data:", user);
-        navigation("/");
+        try {
+            const response = await AuthService.login({username: user.username, password: user.password});
+            if(response) {
+                localStorage.setItem("user", JSON.stringify(response));
+                 navigation("/");
+            }
+        } catch (error) {
+            console.error("Login failed:", error);
+        }
     }
 
     return (

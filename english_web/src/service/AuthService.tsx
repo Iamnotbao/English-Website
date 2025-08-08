@@ -1,25 +1,42 @@
 
 import axios from 'axios';
 
-const API =  process.env.API_URL || "http://localhost:5000/api";
+const API = import.meta.env.VITE_API_URL;
 
 const AuthService = {
-    async login(userData: { email: string; password: string }) {
+    async login(userData: { username: string; password: string }) {
         try {
-            const response = await axios.post(`${API}/auth/login`, userData);
-            return response.data;
+            console.log("Login response:", userData);
+            const response = await axios.post(`${API}/auth/signin`, userData);    
+            return response.data ? response.data : null;
         } catch (error) {
             throw error;
         }
     },
-
-    async register(userData: { name: string; email: string; password: string }) {
+    async register(userData: { username: string; email: string; password: string }) {
         try {
-            const response = await axios.post(`${API}/auth/register`, userData);
-            return response.data;
+            const response = await axios.post(`${API}/auth/signup`, userData);
+            return response.data ? response.data : null;
+        } catch (error) {
+            throw error;
+        }
+    },
+    async logout() {
+        try {
+            const response = await axios.get(`${API}/auth/logout`);
+            return response.data ? response.data : null;
+        } catch (error) {
+            throw error;
+        }
+    },
+    async refreshtoken() {
+        try {
+            const response = await axios.get(`${API}/auth/refresh`);
+            return response.data ? response.data : null;
         } catch (error) {
             throw error;
         }
     }
 };
+
 export default AuthService;

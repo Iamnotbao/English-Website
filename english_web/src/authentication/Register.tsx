@@ -3,14 +3,14 @@ import SendIcon from '@mui/icons-material/Send';
 import BackGround from "../assets/image/background.jpg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthService from "../service/AuthService";
 
 const Register = () => {
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const navigation = useNavigate();
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
     const form = e.currentTarget;
     if (form.password.value !== form.confirmPassword.value) {
       setError("Passwords do not match");
@@ -22,9 +22,14 @@ const Register = () => {
       email: form.email.value,
       password: form.password.value
     }
-    console.log("User data:", user);
-    setLoading(true);
-    navigation("/login");
+     try {
+            const response = await AuthService.register({username: user.username,email:user.email, password: user.password});
+            if(response) {
+                 navigation("/login");
+            }
+        } catch (error) {
+            console.error("Register failed:", error);
+        }
   }
   return (
     <div className="register">

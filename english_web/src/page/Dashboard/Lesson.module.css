@@ -1,0 +1,33 @@
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+.grid {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.wordBtn,
+.meaningBtn {
+  display: block;
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #007bff;
+  background: white;
+}
+
+.wordBtn:hover,
+.meaningBtn:hover {
+  background: #007bff;
+  color: white;
+}
+
+.disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
