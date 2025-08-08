@@ -1,79 +1,63 @@
-import React, { useState } from "react";
-import styles from "./Lesson.module.css"; // CSS Module
+import axios from "axios";
 
-type Pair = {
-  word: string;
-  meaning: string;
-};
+const API = import.meta.env.VITE_API_URL;
+const token = localStorage.getItem("access_token");
 
-const wordPairs: Pair[] = [
-  { word: "Apple", meaning: "A fruit" },
-  { word: "Run", meaning: "To move quickly on foot" },
-  { word: "Book", meaning: "A collection of pages" },
-  { word: "Happy", meaning: "Feeling good" },
-];
 
-export default function Lesson() {
-  const [selectedWord, setSelectedWord] = useState<string | null>(null);
-  const [matched, setMatched] = useState<Pair[]>([]);
-  const [score, setScore] = useState(0);
+export const GetAllLesson = async () => {
+  
+  try {
+    
+    const respone = await axios.get(`${API}/lesson/`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return respone.data ? respone.data : [];
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const GetSingleLesson = async (id:string) => {
+  try {
+    const respone = await axios.get(`${API}/lesson/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return respone.data ? respone.data : [];
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const CreateLesson = async (user_id: string, lesson: Object) => {
+  try {
+    const respone = await axios.post(`${API}/lesson/user/${user_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+      lesson
+    })
+    return respone.data ? respone.data : [];
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-  const handleWordClick = (word: string) => {
-    setSelectedWord(word);
-  };
+export const EditLesson = async (user_id:string ,id: string) => {
+  try {
+    const respone = await axios.put(`${API}/lesson/${user_id}/${id}`)
+    return respone.data ? respone.data : [];
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-  const handleMeaningClick = (meaning: string) => {
-    if (!selectedWord) return;
-    const pair = wordPairs.find(
-      (p) => p.word === selectedWord && p.meaning === meaning
-    );
-    if (pair) {
-      setMatched([...matched, pair]);
-      setScore(score + 1);
-    }
-    setSelectedWord(null);
-  };
-
-  return (
-    <div className={styles.container}>
-      <h2>Vocabulary Match Game</h2>
-      <p>Score: {score}</p>
-
-      <div className={styles.grid}>
-        <div>
-          <h3>Words</h3>
-          {wordPairs.map((pair) => (
-            <button
-              key={pair.word}
-              className={
-                matched.includes(pair) ? styles.disabled : styles.wordBtn
-              }
-              disabled={matched.includes(pair)}
-              onClick={() => handleWordClick(pair.word)}
-            >
-              {pair.word}
-            </button>
-          ))}
-        </div>
-
-        <div>
-          <h3>Meanings</h3>
-          {wordPairs.map((pair) => (
-            <button
-              key={pair.meaning}
-              className={
-                matched.includes(pair) ? styles.disabled : styles.meaningBtn
-              }
-              disabled={matched.includes(pair)}
-              onClick={() => handleMeaningClick(pair.meaning)}
-            >
-              {pair.meaning}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {score === wordPairs.length && <p>🎉 You matched all words!</p>}
-    </div>
-  );
+export const DeleteLesson = async (id: string) => {
+  try {
+    const respone = await axios.delete(`${API}/lesson/user/${id}`)
+    return respone.data ? respone.data : [];
+  } catch (error) {
+    console.log(error);
+  }
 }

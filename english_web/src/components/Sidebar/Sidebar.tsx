@@ -1,17 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import style from './Sidebar.module.css';
-const Sidebar =() => {
+const Sidebar = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    navigate("/login");
+  }
   return (
     <div className={style.sidebar}>
       <h2>Dashboard</h2>
       <ul>
-        <Link to="/lesson"><li>Learn</li></Link>
-        <Link to="/pronounciation"><li>Pronounciation</li></Link>
-        <Link to="/flashcard"><li>Flash Card</li></Link>
-        <Link to="/listening"><li>Listening</li></Link>
-        <Link to="/help"><li>Q&A</li></Link>
-        <Link to="/profile"><li>Profile</li></Link>
-        <li><Link to="/login">Log Out</Link></li>
+        <li><Link to="/lesson">Learn</Link></li>
+        <li><Link to="/pronounciation">Pronounciation</Link></li>
+        <li><Link to="/flashcard">Flash Card</Link></li>
+        <li><Link to="/listening">Listening</Link></li>
+        <li><Link to="/help">Q&A</Link></li>
+        <li><Link to="/profile">Profile</Link></li>
+        <li><span onClick={handleLogout} style={{cursor: 'pointer', color: 'white', textDecoration: 'none'}}>Log Out</span></li>
       </ul>
     </div>
   );
