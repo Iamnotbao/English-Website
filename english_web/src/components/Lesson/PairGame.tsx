@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./Lesson.module.css"; // CSS Module
+import styles from "./PairGame.module.css"; // CSS Module
 
 type Pair = {
   word: string;
@@ -13,7 +13,7 @@ const wordPairs: Pair[] = [
   { word: "Happy", meaning: "Feeling good" },
 ];
 
-export default function Lesson() {
+export default function PairGame() {
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [matched, setMatched] = useState<Pair[]>([]);
   const [score, setScore] = useState(0);

@@ -1,6 +1,6 @@
 import type { RouteObject } from "react-router-dom";
 import HomePage from "../layouts/HomePage";
-import Lesson from "../page/Dashboard/Lesson";
+import Lesson from "../page/Dashboard/Lesson/Lesson";
 import ErrorPage from "../page/ErrorPage";
 import Pronounciation from "../page/Dashboard/Pronounciation";
 import Listening from "../page/Dashboard/Listening";

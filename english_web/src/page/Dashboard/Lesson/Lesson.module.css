@@ -1,0 +1,9 @@
+.lesson > h1 {
+    text-align: center;
+    position: fixed;
+    right:800px;
+    top:24px;
+}
+.lesson_card {
+    margin-top: 80px;
+}
