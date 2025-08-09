@@ -12,21 +12,16 @@ const Login = () => {
     };
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("Form submitted");
         const form = e.currentTarget;
         const user = {
             username: form.usernameOrEmail.value,
             password: form.password.value
         }
-        console.log("User data:", user);
         try {
             const response = await AuthService.login({username: user.username, password: user.password});
             if(response) {
-                console.log("response",response);
                 localStorage.setItem("user", JSON.stringify(response));
                 localStorage.setItem("access_token", JSON.stringify(response.access_token));
-                console.log("sss:",localStorage.getItem("user"));
-                
                  navigation("/");
             }
         } catch (error) {

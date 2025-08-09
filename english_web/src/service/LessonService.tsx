@@ -1,24 +1,18 @@
 import axios from "axios";
+import type { LessonData } from "../model/LessonData";
 
 const API = import.meta.env.VITE_API_URL;
-const token = localStorage.getItem("access_token");
-
 
 export const GetAllLesson = async () => {
   
   try {
-    
-    const respone = await axios.get(`${API}/lesson/`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    const respone = await axios.get(`${API}/lesson/`)
     return respone.data ? respone.data : [];
   } catch (error) {
     console.log(error);
   }
 }
-export const GetSingleLesson = async (id:string) => {
+export const GetSingleLesson = async (id:string, token:string) => {
   try {
     const respone = await axios.get(`${API}/lesson/${id}`, {
       headers: {
@@ -30,13 +24,15 @@ export const GetSingleLesson = async (id:string) => {
     console.log(error);
   }
 }
-export const CreateLesson = async (user_id: string, lesson: Object) => {
+export const CreateLesson = async (user_id: string, lesson: LessonData, token: string) => {
   try {
-    const respone = await axios.post(`${API}/lesson/user/${user_id}`, {
+    console.log("lesson", lesson);
+    
+    const respone = await axios.post(`${API}/lesson/user/${user_id}`,lesson, {
       headers: {
         Authorization: `Bearer ${token}`
       },
-      lesson
+
     })
     return respone.data ? respone.data : [];
   } catch (error) {
@@ -44,9 +40,13 @@ export const CreateLesson = async (user_id: string, lesson: Object) => {
   }
 }
 
-export const EditLesson = async (user_id:string ,id: string) => {
+export const EditLesson = async (user_id:string ,id: string, token :string) => {
   try {
-    const respone = await axios.put(`${API}/lesson/${user_id}/${id}`)
+    const respone = await axios.put(`${API}/lesson/${user_id}/${id}`,{
+      header:{
+        Authorization:`Bearer ${token}`
+      }
+    })
     return respone.data ? respone.data : [];
   } catch (error) {
     console.log(error);

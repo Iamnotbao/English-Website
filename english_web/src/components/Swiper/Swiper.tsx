@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -10,9 +10,9 @@ import './Swiper.module.css';
 // Import required modules
 import { Pagination } from 'swiper/modules';
 import LessonCard from '../Collection/LessonCard';
+import { CircularProgress } from '@mui/material';
 
-const SwiperLesson = ({lessons = []}) => {
-    console.log("pass:",lessons);
+const SwiperLesson = ({lessons = [], loading= false}) => {
     
     const pagination = {
         clickable: true,
@@ -20,11 +20,17 @@ const SwiperLesson = ({lessons = []}) => {
             return `<span class="${className}">${index + 1}</span>`;
         },
     };
-
+    if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', padding: 20 }}>
+        <CircularProgress />
+      </div>
+    );
+  }
     return (
         <Swiper
             freeMode={true}
-            slidesPerView={3}
+            slidesPerView={4}
             pagination={pagination}
             modules={[Pagination]}
             className="mySwiper"

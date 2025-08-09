@@ -1,27 +1,49 @@
 import { Button } from "@mui/material";
-import { Lesson } from "../../model/Lesson";
+import type { Lesson } from "../../model/Lesson";
+import HalfRating from "../Rating/RatingStar";
+import { useState } from "react";
+import MultipleGame from "../Dialog/MultipleGame";
+
 
 type LessonCardProps = {
     lesson: Lesson;
 }
 
 const LessonCard: React.FC<LessonCardProps> = ({ lesson }) => {
-    console.log("detail", lesson.image_url);
+
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+
     return (
         <>
-            {lesson ? (<div className="border">
-                <img className="max-w-full" src={lesson.image_url} alt="Lesson Thumbnail" />
-                <h3>Topic: {lesson.name}</h3>
-                <p>Total words : {lesson.words && lesson.words.length > 0?(
-                    lesson.words.length
-                ):(0)}</p>
-                <p>Director : Ms.John</p>
-                <p>create at: {lesson.createdAt}</p>
-                <p>rating: {lesson.rating}</p>
-                <p>Levels: {lesson.level}</p>
-                <Button variant="contained">Learn</Button>
+            {lesson ? (<div className="border relative bg-[yellow]">
+                <div className="max-w-full">
+                    <img className="w-full" src={lesson.image_url} alt="Lesson Thumbnail" />
+                </div>
+                <div className="pl-[8px]">
+                    <h3 className="mt-[10px] cursor-pointer">Topic: {lesson.name} </h3>
+                    <p className="text-[13px] font-[500] text-[#686868] mb-[4px] mt-[2px]">Create at: {lesson.createdAt}</p>
+                    <p className="text-[14px] font-[800] text-[blue] uppercase mb-[4px] cursor-pointer">Director: {lesson.director_name}</p>
+                    <p className="text-[14px] uppercase mb-[4px]">Total words: {lesson.words && lesson.words.length > 0 ? (
+                        lesson.words.length
+                    ) : (0)}</p>
+                    <div className="absolute top-[5px] right-[10px] bg-black p-0 m-0"><HalfRating rating={lesson.rating} /></div>
+                    <p className="uppercase text-[15px]">Levels: <span className="font-[700]">{lesson.level}</span></p>
+                </div>
+
+                <div className="flex flex-row justify-center"><Button onClick={handleClickOpen} variant="contained">Learn</Button></div>
+
             </div>) : (<p>loading....</p>)
             }
+            <MultipleGame open={open} words={lesson.words} handleClose={handleClose}  />
         </>
 
     );

@@ -1,9 +1,18 @@
+
+.lesson{
+    position: relative;
+}
 .lesson > h1 {
     text-align: center;
     position: fixed;
-    right:800px;
+    right:700px;
     top:24px;
 }
 .lesson_card {
     margin-top: 80px;
+}
+.button{
+    position : absolute;
+    top:-30px;
+    right: 30px;
 }

@@ -7,7 +7,6 @@ const API = import.meta.env.VITE_API_URL;
 export const GetListByUser = async (user_id: string, token : string) => {
     
     try {
-        console.log("chill", token);
         const respone = await axios.get(`${API}/user/list/${user_id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
