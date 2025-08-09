@@ -1,34 +1,29 @@
-const LessonCard = ({ }) => {
+import { Button } from "@mui/material";
+import { Lesson } from "../../model/Lesson";
+
+type LessonCardProps = {
+    lesson: Lesson;
+}
+
+const LessonCard: React.FC<LessonCardProps> = ({ lesson }) => {
+    console.log("detail", lesson.image_url);
     return (
-        <div className="lesson__group grid grid-cols-3 gap-4">
-            <div>
-                <img src="https://via.placeholder.com/150" alt="Lesson Thumbnail" />
-                <h3>Lesson 1: Introduction to React</h3>
-                <p>Learn the basics of React, including components, state, and props.</p>
+        <>
+            {lesson ? (<div className="border">
+                <img className="max-w-full" src={lesson.image_url} alt="Lesson Thumbnail" />
+                <h3>Topic: {lesson.name}</h3>
+                <p>Total words : {lesson.words && lesson.words.length > 0?(
+                    lesson.words.length
+                ):(0)}</p>
                 <p>Director : Ms.John</p>
-                <p>create at: 19:20pm</p>
-                <p>rating: 5 stars</p>
-                <p>levels: basic</p>
-            </div>
-            <div>
-                <img src="https://via.placeholder.com/150" alt="Lesson Thumbnail" />
-                <h3>Lesson 1: Introduction to React</h3>
-                <p>Learn the basics of React, including components, state, and props.</p>
-                <p>Director : Ms.John</p>
-                <p>create at: 19:20pm</p>
-                <p>rating: 5 stars</p>
-                <p>levels: basic</p>
-            </div>
-            <div>
-                <img src="https://via.placeholder.com/150" alt="Lesson Thumbnail" />
-                <h3>Lesson 1: Introduction to React</h3>
-                <p>Learn the basics of React, including components, state, and props.</p>
-                <p>Director : Ms.John</p>
-                <p>create at: 19:20pm</p>
-                <p>rating: 5 stars</p>
-                <p>levels: basic</p>
-            </div>
-        </div>
+                <p>create at: {lesson.createdAt}</p>
+                <p>rating: {lesson.rating}</p>
+                <p>Levels: {lesson.level}</p>
+                <Button variant="contained">Learn</Button>
+            </div>) : (<p>loading....</p>)
+            }
+        </>
+
     );
 }
 export default LessonCard;  
