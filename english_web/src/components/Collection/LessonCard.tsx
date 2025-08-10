@@ -3,13 +3,15 @@ import type { Lesson } from "../../model/Lesson";
 import HalfRating from "../Rating/RatingStar";
 import { useState } from "react";
 import MultipleGame from "../Dialog/MultipleGame";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 
 type LessonCardProps = {
     lesson: Lesson;
+    handleDelete: (id: string) => void;
 }
 
-const LessonCard: React.FC<LessonCardProps> = ({ lesson }) => {
+const LessonCard: React.FC<LessonCardProps> = ({ lesson, handleDelete }) => {
 
     const [open, setOpen] = useState(false);
 
@@ -20,7 +22,6 @@ const LessonCard: React.FC<LessonCardProps> = ({ lesson }) => {
     const handleClose = () => {
         setOpen(false);
     };
-
 
     return (
         <>
@@ -40,10 +41,26 @@ const LessonCard: React.FC<LessonCardProps> = ({ lesson }) => {
                 </div>
 
                 <div className="flex flex-row justify-center"><Button onClick={handleClickOpen} variant="contained">Learn</Button></div>
-
+                <div className="absolute top-[5px] left-[10px]">
+                    <Button
+                        color="error"
+                        variant="contained"
+                        onClick={() => handleDelete(lesson._id)}
+                        sx={{
+                            minWidth: 24,
+                            width: 24,
+                            height: 24,
+                            padding: 0,
+                            borderRadius: '4px',
+                            minHeight: 'auto'
+                        }}
+                    >
+                        <DeleteForeverIcon fontSize="small" />
+                    </Button>
+                </div>
             </div>) : (<p>loading....</p>)
             }
-            <MultipleGame open={open} words={lesson.words} handleClose={handleClose}  />
+            <MultipleGame open={open} words={lesson.words} handleClose={handleClose} />
         </>
 
     );

@@ -44,3 +44,15 @@ export const EditUser = async (user_id: string,token :string, user: Object) => {
         console.log(error);
     }
 }
+export const DeleteLessonByUser = async (user_id: string,lesson_id:string, token : string) => {
+    try {
+        const respone = await axios.delete(`${API}/user/${user_id}/${lesson_id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return respone.data ? respone.data : {};
+    } catch (error) {
+        console.log(error);
+    }
+}

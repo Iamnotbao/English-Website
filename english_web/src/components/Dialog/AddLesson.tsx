@@ -9,13 +9,11 @@ import type { LessonData } from "../../model/LessonData";
 type CreateLessonProps = {
     open: boolean,
     handleClose: () => void;
-    onCreate : (lesson:LessonData) => void;
+    onCreate: (lesson: LessonData) => void;
+    handleFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-
-
-
-const AddLesson = ({ open, handleClose,onCreate }: CreateLessonProps) => {
+const AddLesson = ({ open, handleClose, onCreate, handleFile }: CreateLessonProps) => {
 
     const [lesson, setLesson] = useState<LessonData>({
         name: "",
@@ -81,12 +79,10 @@ const AddLesson = ({ open, handleClose,onCreate }: CreateLessonProps) => {
                     value={lesson.rating}
                     onChange={(e) => handleChange("rating", Number(e.target.value))}
                 />
-                <TextField
-                    label="Image URL"
-                    fullWidth
-                    margin="normal"
-                    value={lesson.image_url}
-                    onChange={(e) => handleChange("image_url", e.target.value)}
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFile}
                 />
                 <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
                     Words

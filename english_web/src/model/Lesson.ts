@@ -1,6 +1,7 @@
 import type { Word } from "./Word";
 
 export type Lesson ={
+    _id:string
     name: string,
     level : string,
     director_name: string,

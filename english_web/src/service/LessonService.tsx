@@ -1,5 +1,4 @@
 import axios from "axios";
-import type { LessonData } from "../model/LessonData";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -24,11 +23,11 @@ export const GetSingleLesson = async (id:string, token:string) => {
     console.log(error);
   }
 }
-export const CreateLesson = async (user_id: string, lesson: LessonData, token: string) => {
+export const CreateLesson = async (user_id: string, formData: FormData, token: string) => {
   try {
-    console.log("lesson", lesson);
+    console.log("lesson", formData);
     
-    const respone = await axios.post(`${API}/lesson/user/${user_id}`,lesson, {
+    const respone = await axios.post(`${API}/lesson/user/${user_id}`,formData, {
       headers: {
         Authorization: `Bearer ${token}`
       },

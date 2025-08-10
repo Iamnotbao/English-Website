@@ -11,8 +11,16 @@ import './Swiper.module.css';
 import { Pagination } from 'swiper/modules';
 import LessonCard from '../Collection/LessonCard';
 import { CircularProgress } from '@mui/material';
+import type { Lesson } from '../../model/Lesson';
 
-const SwiperLesson = ({lessons = [], loading= false}) => {
+
+
+type SwiperLessonProps = {
+  lessons: Lesson[];
+  loading?: boolean;
+  handleDelete: (id: string) => void;
+};
+const SwiperLesson = ({lessons , loading, handleDelete}:SwiperLessonProps) => {
     
     const pagination = {
         clickable: true,
@@ -37,7 +45,7 @@ const SwiperLesson = ({lessons = [], loading= false}) => {
         >
             {lessons&& lessons.length>0 &&(
                 lessons.map((lesson)=>(
-                    <SwiperSlide><LessonCard lesson={lesson}/></SwiperSlide>
+                    <SwiperSlide><LessonCard lesson={lesson} handleDelete={handleDelete}/></SwiperSlide>
                 ))
             )}
             
