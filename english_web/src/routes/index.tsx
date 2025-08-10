@@ -9,14 +9,15 @@ import Profile from "../page/Dashboard/Profile";
 import HelpSection from "../page/Dashboard/HelpSection";
 import Login from "../authentication/Login";
 import Register from "../authentication/Register";
+import QuestionDetail from "../components/HelpSection/QuestionDetail";
 
 const routes: RouteObject[] = [
-     {
-        path:"/register",
+    {
+        path: "/register",
         element: (<Register />)
     },
     {
-        path:"/login",
+        path: "/login",
         element: (<Login />)
     }
     ,
@@ -47,6 +48,10 @@ const routes: RouteObject[] = [
             },
             {
                 path: "help", element: (<HelpSection />)
+            }
+            , {
+                path: "/help/:id",
+                element: <QuestionDetail />,
             }
         ]
     },
