@@ -9,8 +9,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import type { TransitionProps } from '@mui/material/transitions';
 import type { Word } from '../../model/Word';
-import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import { Stack } from '@mui/material';
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & { children: React.ReactElement },
@@ -106,44 +106,48 @@ export default function MultipleGame({
                             Question {currentIndex + 1} of {quizWords.length}
                         </Typography>
                         <Typography variant="h4" sx={{ mb: 2 }}>
-                            {currentIndex+1}.{currentWord.meaning}
+                            {currentIndex + 1}.{currentWord.meaning}
                         </Typography>
-                        <Grid container spacing={2} justifyContent="center">
-                            {allOptions.map((option,idx) => (
-                                 <Grid item xs={12} sm={6} key={idx}>
-                                    <Paper
-                                        elevation={3}
+                        <Stack
+                            direction="row"
+                            flexWrap="wrap"
+                            justifyContent="center"
+                            spacing={2}
+                        >
+                            {allOptions.map((option, idx) => (
+                                <Paper
+                                    key={idx}
+                                    elevation={3}
+                                    sx={{
+                                        width: 250,
+                                        minHeight: 60,
+                                        p: 2,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        textAlign: 'center',
+                                        cursor: 'pointer',
+                                        bgcolor:
+                                            showResult && option === currentWord.word
+                                                ? 'lightgreen'
+                                                : showResult && option === selectedAnswer
+                                                    ? 'salmon'
+                                                    : 'white',
+                                        pointerEvents: showResult ? 'none' : 'auto',
+                                    }}
+                                    onClick={() => handleAnswerClick(option)}
+                                >
+                                    <Typography
+                                        variant="body1"
                                         sx={{
-                                            width: 250, 
-                                            minHeight: 60, 
-                                            p: 2,
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            textAlign: 'center',
-                                            cursor: 'pointer',
-                                            bgcolor:
-                                                showResult && option === currentWord.word
-                                                    ? 'lightgreen'
-                                                    : showResult && option === selectedAnswer
-                                                        ? 'salmon'
-                                                        : 'white',
-                                            pointerEvents: showResult ? 'none' : 'auto',
+                                            wordBreak: 'break-word',
                                         }}
-                                        onClick={() => handleAnswerClick(option)}
                                     >
-                                        <Typography
-                                            variant="body1"
-                                            sx={{
-                                                wordBreak: 'break-word',
-                                            }}
-                                        >
-                                            {option}
-                                        </Typography>
-                                    </Paper>
-                                </Grid>
+                                        {option}
+                                    </Typography>
+                                </Paper>
                             ))}
-                        </Grid>
+                        </Stack>
                         {showResult && (
                             <div className="mt-[16px]">
                                 <Typography variant='body1' color={isCorrect ? 'green' : 'red'}>

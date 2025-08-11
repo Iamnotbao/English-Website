@@ -41,24 +41,6 @@ export default function Gallery({ student, onChange }: GalleryProps) {
     setEditingIndex(null);
   };
 
-  const saveAdd = () => {
-    if (!tempValue.trim()) return;
-    const gallery = [...(student.gallery || []), tempValue.trim()];
-    onChange({ gallery });
-    setAddingNew(false);
-    setTempValue("");
-  };
-
-  const cancelAdd = () => {
-    setAddingNew(false);
-    setTempValue("");
-  };
-
-  const removeImage = (index: number) => {
-    const gallery = [...(student.gallery || [])];
-    gallery.splice(index, 1);
-    onChange({ gallery });
-  };
 
   return (
     <Paper sx={{ p: 2, borderRadius: 2 }}>

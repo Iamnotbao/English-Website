@@ -108,15 +108,14 @@ export default function QuestionForm({
                     <Autocomplete
                         options={typeOptions}
                         value={type}
-                        onChange={(e, newValue) => setType(newValue)}
+                        onChange={(_, newValue) => setType(newValue ?? undefined)}
                         renderInput={(params) => <TextField {...params} label="Type (optional)" disabled={loading} />}
-                        disableClearable
                     />
                     <Autocomplete
                         multiple
                         options={tagOptions}
                         value={tags}
-                        onChange={(e, newValue) => setTags(newValue)}
+                        onChange={(_, newValue:string[]) => setTags(newValue)}
                         renderInput={(params) => (
                             <TextField
                                 {...params}

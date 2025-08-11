@@ -3,22 +3,20 @@ import styles from "../Lesson/Lesson.module.css"
 import SwiperLesson from "../../../components/Swiper/Swiper";
 import { DeleteLessonByUser, GetListByUser } from "../../../service/UserService";
 import { Button } from "@mui/material";
-import { CreateLesson, DeleteLesson } from "../../../service/LessonService"
+import { CreateLesson} from "../../../service/LessonService"
 import AddLesson from "../../../components/Dialog/AddLesson";
 import type { LessonData } from "../../../model/LessonData";
 const Lesson = () => {
   const [lessons, setLessons] = useState([]);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  // const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [userObj, setUserObj] = useState<{ _id: string; access_token: string } | null>(null);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
       setImageFile(e.target.files[0]);
-      setImagePreview(URL.createObjectURL(file));
     }
   }
   const fetchAllLesson = async () => {

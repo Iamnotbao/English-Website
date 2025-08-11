@@ -1,10 +1,9 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography, Stack } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import type { Word } from "../../model/Word";
 import { useState } from "react";
 import type { LessonData } from "../../model/LessonData";
-
 
 type CreateLessonProps = {
     open: boolean,
@@ -14,7 +13,6 @@ type CreateLessonProps = {
 }
 
 const AddLesson = ({ open, handleClose, onCreate, handleFile }: CreateLessonProps) => {
-
     const [lesson, setLesson] = useState<LessonData>({
         name: "",
         level: "",
@@ -22,11 +20,13 @@ const AddLesson = ({ open, handleClose, onCreate, handleFile }: CreateLessonProp
         image_url: "",
         words: [{ word: "", meaning: "", example: "" }],
     });
+
     const handleWordChange = (index: number, field: keyof Word, value: string) => {
         const newWords = [...lesson.words];
         newWords[index] = { ...newWords[index], [field]: value };
         setLesson((prev) => ({ ...prev, words: newWords }));
     };
+
     const addWord = () => {
         setLesson((prev) => ({
             ...prev,
@@ -38,6 +38,7 @@ const AddLesson = ({ open, handleClose, onCreate, handleFile }: CreateLessonProp
         const newWords = lesson.words.filter((_, i) => i !== index);
         setLesson((prev) => ({ ...prev, words: newWords }));
     };
+
     const handleSubmit = () => {
         onCreate(lesson);
         handleClose();
@@ -49,10 +50,12 @@ const AddLesson = ({ open, handleClose, onCreate, handleFile }: CreateLessonProp
             words: [{ word: "", meaning: "", example: "" }],
         });
     };
+
     const handleChange = (field: keyof LessonData, value: any) => {
         setLesson((prev) => ({ ...prev, [field]: value }));
     };
-    return <>
+
+    return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Create Lesson</DialogTitle>
             <DialogContent>
@@ -91,60 +94,62 @@ const AddLesson = ({ open, handleClose, onCreate, handleFile }: CreateLessonProp
                     </IconButton>
                 </Typography>
 
-                <Grid container spacing={2}>
+                <Stack spacing={2}>
                     {lesson.words.map((word, index) => (
-                        <Grid item xs={6} key={index}>
-                            <Box
-                                sx={{
-                                    border: "1px solid #ddd",
-                                    borderRadius: 1,
-                                    p: 1,
-                                    position: "relative",
-                                }}
-                            >
-                                <TextField
-                                    label="Word"
-                                    fullWidth
-                                    margin="dense"
-                                    value={word.word}
-                                    onChange={(e) => handleWordChange(index, "word", e.target.value)}
-                                />
-                                <TextField
-                                    label="Meaning"
-                                    fullWidth
-                                    margin="dense"
-                                    value={word.meaning}
-                                    onChange={(e) => handleWordChange(index, "meaning", e.target.value)}
-                                />
-                                <TextField
-                                    label="Example"
-                                    fullWidth
-                                    margin="dense"
-                                    value={word.example}
-                                    onChange={(e) => handleWordChange(index, "example", e.target.value)}
-                                />
-                                {lesson.words.length > 1 && (
-                                    <IconButton
-                                        size="small"
-                                        color="error"
-                                        onClick={() => removeWord(index)}
-                                        sx={{ position: "absolute", top: 4, right: 4 }}
-                                    >
-                                        <RemoveIcon />
-                                    </IconButton>
-                                )}
-                            </Box>
-                        </Grid>
+                        <Box
+                            key={index}
+                            sx={{
+                                border: "1px solid #ddd",
+                                borderRadius: 1,
+                                p: 1,
+                                position: "relative",
+                            }}
+                        >
+                            <TextField
+                                label="Word"
+                                fullWidth
+                                margin="dense"
+                                value={word.word}
+                                onChange={(e) => handleWordChange(index, "word", e.target.value)}
+                            />
+                            <TextField
+                                label="Meaning"
+                                fullWidth
+                                margin="dense"
+                                value={word.meaning}
+                                onChange={(e) => handleWordChange(index, "meaning", e.target.value)}
+                            />
+                            <TextField
+                                label="Example"
+                                fullWidth
+                                margin="dense"
+                                value={word.example}
+                                onChange={(e) => handleWordChange(index, "example", e.target.value)}
+                            />
+                            {lesson.words.length > 1 && (
+                                <IconButton
+                                    size="small"
+                                    color="error"
+                                    onClick={() => removeWord(index)}
+                                    sx={{ position: "absolute", top: 4, right: 4 }}
+                                >
+                                    <RemoveIcon />
+                                </IconButton>
+                            )}
+                        </Box>
                     ))}
-                </Grid>
+                </Stack>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
                     Close
                 </Button>
-                <Button variant="contained" onClick={handleSubmit}>Create</Button>
+                <Button variant="contained" onClick={handleSubmit}>
+                    Create
+                </Button>
             </DialogActions>
         </Dialog>
-    </>
-}
+    );
+};
+
 export default AddLesson;

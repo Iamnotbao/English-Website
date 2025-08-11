@@ -11,8 +11,9 @@ import { CreatePost, GetAllPost, ToggleLike } from "../../service/PostService";
 import QuestionForm from "../../components/HelpSection/QuestionForm";
 import type { QuestionData } from "../../model/QuestionData";
 import { useLocation } from "react-router-dom";
+import ErrorPage from "../ErrorPage";
 
-export default function HelpSection() {
+const  HelpSection=()=> {
   const [questions, setQuestions] = useState<(Question & { likes: string[] })[]>([]);
   const [visibleCount, setVisibleCount] = useState(5);
   const [open, setOpen] = useState(false);
@@ -22,7 +23,7 @@ export default function HelpSection() {
   
   const location = useLocation();
   const user = localStorage.getItem("user");
-  if (!user) return console.log("user has not stored!");
+  if (!user) return (<><ErrorPage/></>);
   const userObj = JSON.parse(user);
   const currentUserId = userObj._id;
   const fetchPosts = async () => {
@@ -147,3 +148,4 @@ export default function HelpSection() {
     </Box>
   );
 }
+export default HelpSection;

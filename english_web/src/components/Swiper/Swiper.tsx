@@ -1,13 +1,11 @@
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
-
 import './Swiper.module.css';
 
-// Import required modules
+
 import { Pagination } from 'swiper/modules';
 import LessonCard from '../Collection/LessonCard';
 import { CircularProgress } from '@mui/material';

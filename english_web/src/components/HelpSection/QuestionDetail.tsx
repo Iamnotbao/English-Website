@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { Box, Stack, Typography, Chip, Button, Divider, IconButton } from "@mui/material";
+import { Box, Stack, Typography, Chip,Divider, IconButton } from "@mui/material";
 import { useParams } from "react-router-dom";
 import CommentItem from "../../components/HelpSection/CommentItem";
 import CommentForm from "../../components/HelpSection/CommentForm";
@@ -11,16 +11,17 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { GetPostById, ToggleLike } from "../../service/PostService";
 import { CreateComment, GetCommentByPost } from "../../service/CommentService";
 import type { CommentData } from "../../model/CommentData";
+import ErrorPage from "../../page/ErrorPage";
 
 
 
-export default function QuestionDetail() {
+const  QuestionDetail=()=> {
     const { id } = useParams<{ id: string }>();
     const [question, setQuestion] = useState<Question | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
 
     const user = localStorage.getItem("user");
-    if (!user) return console.log("user has not stored!");
+    if (!user) return (<><ErrorPage/></>);
     const userObj = JSON.parse(user);
     const currentUserId = userObj._id;
     const fetchDetailPost = async () => {
@@ -161,3 +162,4 @@ export default function QuestionDetail() {
         </Box>
     );
 }
+export default QuestionDetail;

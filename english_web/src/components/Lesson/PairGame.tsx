@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./PairGame.module.css"; // CSS Module
 
 type Pair = {
