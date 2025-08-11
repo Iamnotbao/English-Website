@@ -12,7 +12,7 @@ export default function TagFilter({
   return (
     <Stack direction="row" spacing={1} flexWrap="wrap">
       <Chip
-        label="Tất cả"
+        label="All"
         clickable
         onClick={() => onSelect(null)}
         color={!selectedTag ? "primary" : "default"}

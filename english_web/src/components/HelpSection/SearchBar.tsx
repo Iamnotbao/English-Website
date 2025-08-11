@@ -11,7 +11,7 @@ export default function SearchBar({
   return (
     <TextField
       size="small"
-      placeholder="Tìm kiếm câu hỏi..."
+      placeholder="Find your question..."
       value={value}
       onChange={(e) => onChange(e.target.value)}
       InputProps={{

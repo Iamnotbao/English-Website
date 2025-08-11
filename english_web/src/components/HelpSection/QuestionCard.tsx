@@ -10,7 +10,7 @@ type QuestionCardProps = {
   question: Question & { likes: string[] };
   currentUserId: string;
   onVote: (id: string, change: number) => void;
-  onLikeToggle: (id: string, liked: boolean) => void;
+  onLikeToggle: (id: string) => void;
 };
 
 export default function QuestionCard({ question, currentUserId, onVote, onLikeToggle }: QuestionCardProps) {
@@ -24,12 +24,10 @@ export default function QuestionCard({ question, currentUserId, onVote, onLikeTo
 
   const handleLikeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onLikeToggle(question._id, !liked);
+    onLikeToggle(question._id);
   };
-
   return (
     <Card sx={{ borderRadius: 2, boxShadow: 1, display: 'flex', cursor: 'pointer' }} onClick={goToDetail}>
-      {/* Voting controls on the left */}
       <Box
         sx={{
           display: 'flex',
@@ -44,7 +42,6 @@ export default function QuestionCard({ question, currentUserId, onVote, onLikeTo
         }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Vote up */}
         <IconButton
           size="small"
           color="primary"
@@ -53,12 +50,9 @@ export default function QuestionCard({ question, currentUserId, onVote, onLikeTo
         >
           <ThumbUpAltOutlinedIcon />
         </IconButton>
-
         <Typography variant="subtitle1" fontWeight="bold" color="text.primary" sx={{ my: 0.5 }}>
           {question.votes}
         </Typography>
-
-        {/* Vote down */}
         <IconButton
           size="small"
           color="secondary"
@@ -68,8 +62,6 @@ export default function QuestionCard({ question, currentUserId, onVote, onLikeTo
           <ThumbDownAltOutlinedIcon />
         </IconButton>
       </Box>
-
-      {/* Content */}
       <CardContent sx={{ flex: 1 }}>
         <Typography variant="subtitle1" fontWeight="bold">
           {question.title}
@@ -80,14 +72,10 @@ export default function QuestionCard({ question, currentUserId, onVote, onLikeTo
             <Chip key={tag} label={tag} size="small" />
           ))}
         </Stack>
-
-        {/* Câu trả lời + trái tim nằm ngang */}
         <Stack direction="row" alignItems="center" spacing={1}>
           <Typography variant="body2" color="text.secondary">
-            {question.answersCount} câu trả lời
+            {question.comments.length} answers
           </Typography>
-
-          {/* Like button + số lượt thích */}
           <IconButton
             size="small"
             color={liked ? 'error' : 'default'}

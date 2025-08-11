@@ -7,67 +7,53 @@ import TagFilter from "../../components/HelpSection/TagFilter";
 import SearchBar from "../../components/HelpSection/SearchBar";
 import QuestionCard from "../../components/HelpSection/QuestionCard";
 import type { Question } from "../../model/Question";
+import { CreatePost, GetAllPost, ToggleLike } from "../../service/PostService";
+import QuestionForm from "../../components/HelpSection/QuestionForm";
+import type { QuestionData } from "../../model/QuestionData";
 
 
 
 export default function HelpSection() {
   const [questions, setQuestions] = useState<(Question & { likes: string[] })[]>([]);
   const [visibleCount, setVisibleCount] = useState(5);
+  const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"hot" | "new" | "top">("hot");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const currentUserId = "abc123";
+  const user = localStorage.getItem("user");
+  if (!user) return console.log("user has not stored!");
+  const userObj = JSON.parse(user);
 
-  // Mock dữ liệu
+
+
+  const fetchPosts = async () => {
+    if (userObj) {
+      const response = await GetAllPost(userObj.access_token);
+      if (response) {
+        console.log(response);
+        setQuestions(response.posts);
+      }
+      else {
+        console.log("There are no post at all ");
+      }
+    }
+    else {
+      console.log("user cannot be parsed to object!");
+
+    }
+
+  }
   useEffect(() => {
-    setQuestions([
-      {
-        _id: "1",
-        title: "What is the difference between 'a' and 'an'?",
-        tags: ["Grammar"],
-        answersCount: 3,
-        votes: 5,
-        createdAt: "2025-08-10T08:00:00Z",
-        likes: [],  // thêm đây
-      },
-      {
-        _id: "2",
-        title: "How to improve English speaking skills?",
-        tags: ["Speaking"],
-        answersCount: 5,
-        votes: 8,
-        createdAt: "2025-08-09T10:00:00Z",
-        likes: [],
-      },
-      {
-        _id: "3",
-        title: "Best practices to expand Vocabulary quickly?",
-        tags: ["Vocabulary"],
-        answersCount: 4,
-        votes: 12,
-        createdAt: "2025-08-08T09:00:00Z",
-        likes: [],
-      },
-      {
-        _id: "4",
-        title: "Common mistakes in English writing",
-        tags: ["Grammar"],
-        answersCount: 2,
-        votes: 4,
-        createdAt: "2025-08-07T14:00:00Z",
-        likes: [],
-      },
-    ]);
+    fetchPosts();
   }, []);
 
-  // Lấy danh sách tag
   const tags = useMemo(() => {
     const s = new Set<string>();
     questions.forEach(q => q.tags.forEach(t => s.add(t)));
     return Array.from(s);
   }, [questions]);
 
-  // Lọc + sort
   const filtered = useMemo(() => {
     let list = questions
       .filter(q => q.title.toLowerCase().includes(query.toLowerCase()))
@@ -83,7 +69,7 @@ export default function HelpSection() {
         list = [...list].sort((a, b) => b.votes - a.votes);
         break;
       case "hot":
-        list = [...list].sort((a, b) => b.answersCount - a.answersCount);
+        list = [...list].sort((a, b) => b.comments.length - a.comments.length);
         break;
     }
     return list;
@@ -102,52 +88,68 @@ export default function HelpSection() {
       })
     );
   };
-  const handleLikeToggle = async (questionId: string, liked: boolean) => {
-  // Gọi API backend để like/unlike post
-  if (liked) {
-    await fetch(`/api/posts/${questionId}/like`, { method: 'POST', body: JSON.stringify({ userId: currentUserId }) });
-  } else {
-    await fetch(`/api/posts/${questionId}/unlike`, { method: 'POST', body: JSON.stringify({ userId: currentUserId }) });
+  const handleOpen = () => { setOpen(true) }
+  const handleClose = () => { setOpen(false) }
+  const handleLikeToggle = async (questionId: string) => {
+    try {
+      if (userObj) {
+        const response = await ToggleLike(questionId,userObj._id,userObj.access_token);
+        if(response){
+          console.log("after like:",response);  
+          setQuestions(prev => prev.map(q=> q._id === questionId ? {...q,likes: response.post.likes}:q));  
+        }
+        // setQuestions(prev =>
+        //   prev.map(q =>
+        //     q._id === questionId
+        //       ? {
+        //         ...q,
+        //         likes: liked
+        //           ? [...q.likes, currentUserId]
+        //           : q.likes.filter(id => id !== currentUserId),
+        //       }
+        //       : q
+        //   )
+        // );
+      }
+      else{
+        console.log("user has not been passed");
+        
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleSubmit = async (newPost: QuestionData) => {
+    try {
+      if (userObj) {
+        const response = await CreatePost(newPost, userObj.access_token);
+        setQuestions(prev => [...prev, response.post]);
+      }
+    } catch (error) {
+      console.log(error);
+
+    }
   }
-
-  // Cập nhật local state để UI update nhanh
-  setQuestions(prev =>
-    prev.map(q =>
-      q._id === questionId
-        ? {
-            ...q,
-            likes: liked
-              ? [...q.likes, currentUserId]
-              : q.likes.filter(id => id !== currentUserId),
-          }
-        : q
-    )
-  );
-};
-
   return (
     <Box sx={{ p: 2 }}>
-      {/* Header */}
       <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
         <Typography variant="h6" fontWeight="bold">List Of Questions</Typography>
-        <Button variant="contained">Ask Now</Button>
+        <Button variant="contained" onClick={handleOpen}>Ask Now</Button>
       </Stack>
 
-      {/* Controls */}
       <Stack spacing={2} mb={2}>
         <SortTabs value={sort} onChange={setSort} />
         <SearchBar value={query} onChange={setQuery} />
         <TagFilter tags={tags} selectedTag={selectedTag} onSelect={setSelectedTag} />
       </Stack>
 
-      {/* Question List */}
       <Stack spacing={1.5}>
         {filtered.slice(0, visibleCount).map(q => (
-          <QuestionCard key={q._id} question={q} currentUserId={currentUserId}  onVote={handleVote} onLikeToggle={handleLikeToggle} />
+          <QuestionCard key={q._id} question={q} currentUserId={currentUserId} onVote={handleVote} onLikeToggle={handleLikeToggle} />
         ))}
       </Stack>
 
-      {/* Load More */}
       {visibleCount < filtered.length && (
         <Stack alignItems="center" mt={2}>
           <Button
@@ -158,6 +160,7 @@ export default function HelpSection() {
           </Button>
         </Stack>
       )}
+      <QuestionForm open={open} onClose={handleClose} onSubmit={handleSubmit} author_id={userObj._id} />
     </Box>
   );
 }
