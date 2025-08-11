@@ -73,6 +73,24 @@ export default function QuestionCard({ question, currentUserId, onVote, onLikeTo
           ))}
         </Stack>
         <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction="row" alignItems="center" spacing={1} sx={{mb:2}}>
+            <Box
+              component="img"
+              src={question.author_id.avatar}
+              alt="avatar"
+              loading="lazy"
+              sx={{
+                width: 20,
+                height: 20,
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}/>
+            <Typography variant="body2" color="text.secondary" fontWeight={"bold"}>
+              {question.author_id.username}
+            </Typography>
+
+          </Stack>
+
           <Typography variant="body2" color="text.secondary">
             {question.comments.length} answers
           </Typography>

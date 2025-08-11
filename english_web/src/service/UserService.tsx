@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { User } from "../model/User";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -32,13 +33,13 @@ export const GetProfileUser = async (user_id: string, token : string) => {
 
 
 
-export const EditUser = async (user_id: string,token :string, user: Object) => {
+export const EditUser = async (user_id: string, user: Partial<User>,token :string) => {
     try {
-        const respone = await axios.put(`${API}/user/${user_id}`, {
+        const respone = await axios.put(`${API}/user/${user_id}`,user, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }, user)
+        }, )
         return respone.data ? respone.data : {};
     } catch (error) {
         console.log(error);

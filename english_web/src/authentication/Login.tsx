@@ -31,23 +31,24 @@ const Login = () => {
 
     return (
         <div className="login h-screen w-full bg-gray-100 flex flex-col items-center justify-center bg-image-cover bg-no-repeat " style={{ backgroundImage: `url(${BackGround})` }}>
-            <div className="login__form flex flex-col items-center justify-center ml-auto mr-auto w-[600px] h-[500px] border-1 border-gray-100 opacity-90 ">
+            <div className="login__form flex flex-col items-center justify-center ml-auto mr-auto w-[600px] h-[500px] border-1 border-gray-100 opacity-80 bg-[blue] text-[white]">
                 <Typography variant="h3" className="mb-10" align='center' sx={{ mb: 6 }}>
                     Login
                 </Typography>
                 <form onSubmit={handleSubmit} className="login__content flex flex-col gap-4 w-[500px]">
                     <FormControl sx={{ mb: 2 }}>
-                        <InputLabel htmlFor="usernameOrEmail">Username or Email</InputLabel>
+                        <InputLabel htmlFor="usernameOrEmail" sx={{color:"white", fontSize:"20px"}}>Username or Email</InputLabel>
                         <Input
                             fullWidth
                             id="usernameOrEmail"
                             name="usernameOrEmail"
                             autoFocus
                             required
+                            sx={{color:"white", fontSize:"20px"}}
                         />
                     </FormControl>
                     <FormControl sx={{ mb: 4 }}>
-                        <InputLabel htmlFor="password">Password</InputLabel>
+                        <InputLabel htmlFor="password" sx={{color:"white", fontSize:"20px"}}>Password</InputLabel>
                         <Input
                             fullWidth
                             id="password"
@@ -58,7 +59,7 @@ const Login = () => {
 
                     </FormControl>
                     <Typography variant="body2" className="text-red-500 mb-4">
-                        <Link className="hover:black" to="/forgot-password">I forgot my password</Link>
+                        <Link className="hover:black" to="/forgot-password" ><span className="text-[white] text-[15px]">I forgot my password</span></Link>
                     </Typography>
                     <FormGroup className="flex flex-row gap-4 mb-4">
                         <FormControlLabel
@@ -68,11 +69,11 @@ const Login = () => {
                             label="Remember me"
                         />
                     </FormGroup>
-                    <Button type="submit" variant="contained" endIcon={<SendIcon />} className='w-[60%] self-center' sx={{ mb: 2 }}>
+                    <Button type="submit" variant="contained" endIcon={<SendIcon />} className='w-[60%] self-center' sx={{ mb: 2,  }}>
                         Sign In
                     </Button>
                     <Typography variant="body2" className="text-red-500 mb-4" align='center' >
-                        <Link className="hover:black" to="/register">Create new account</Link>
+                        <Link className="hover:black" to="/register"><span className="text-[white]">Create new account</span></Link>
                     </Typography>
                 </form>
             </div>

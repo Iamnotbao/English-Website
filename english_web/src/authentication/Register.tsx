@@ -33,14 +33,14 @@ const Register = () => {
   }
   return (
     <div className="register">
-      <div className="login h-screen w-full bg-gray-100 flex flex-col items-center justify-center bg-image-cover bg-no-repeat " style={{ backgroundImage: `url(${BackGround})` }}>
-        <div className="login__form flex flex-col items-center justify-center ml-auto mr-auto w-[600px] h-[500px] border-1">
+      <div className="login h-screen w-full bg-gray-100 flex flex-col items-center justify-center bg-image-cover bg-no-repeat  " style={{ backgroundImage: `url(${BackGround})` }}>
+        <div className="login__form flex flex-col items-center justify-center ml-auto mr-auto w-[600px] h-[500px] border-1 opacity-80 bg-[blue] text-[white]">
           <Typography variant="h3" className="mb-10" align='center' sx={{ mb: 6 }}>
             Register
           </Typography>
           <form onSubmit={handleSubmit} className="login__content flex flex-col gap-4 w-[500px]">
             <FormControl sx={{ mb: 2 }}>
-              <InputLabel htmlFor="email">Email</InputLabel>
+              <InputLabel htmlFor="email" sx={{color:"white", fontSize:"20px"}}>Email</InputLabel>
               <Input
                 fullWidth
                 id="email"
@@ -51,7 +51,7 @@ const Register = () => {
               />
             </FormControl>
             <FormControl sx={{ mb: 4 }}>
-              <InputLabel htmlFor="password">Password</InputLabel>
+              <InputLabel htmlFor="password" sx={{color:"white", fontSize:"20px"}}>Password</InputLabel>
               <Input
                 fullWidth
                 id="password"
@@ -62,7 +62,7 @@ const Register = () => {
               {error && <FormHelperText sx={{ color: 'red', fontSize:"15px"}}>{error}</FormHelperText>}
             </FormControl>
             <FormControl sx={{ mb: 4 }}>
-              <InputLabel htmlFor="confirmPassword">Confirm Password</InputLabel>
+              <InputLabel htmlFor="confirmPassword" sx={{color:"white", fontSize:"20px"}}>Confirm Password</InputLabel>
               <Input
                 fullWidth
                 id="confirmPassword"
@@ -73,7 +73,7 @@ const Register = () => {
              {error && <FormHelperText sx={{ color: 'red', fontSize:"15px"}}>{error}</FormHelperText>}
             </FormControl>
             <FormControl sx={{ mb: 4 }}>
-              <InputLabel htmlFor="username">Username</InputLabel>
+              <InputLabel htmlFor="username" sx={{color:"white", fontSize:"20px"}}>Username</InputLabel>
               <Input
                 fullWidth
                 id="username"

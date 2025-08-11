@@ -1,4 +1,3 @@
-"use client";
 
 import { useEffect, useState } from "react";
 import { Box, Stack, Typography, Chip, Button, Divider, IconButton } from "@mui/material";
@@ -9,7 +8,7 @@ import type { Comment } from "../../model/Comment";
 import type { Question } from "../../model/Question";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { GetPostById } from "../../service/PostService";
+import { GetPostById, ToggleLike } from "../../service/PostService";
 import { CreateComment, GetCommentByPost } from "../../service/CommentService";
 import type { CommentData } from "../../model/CommentData";
 
@@ -19,11 +18,11 @@ export default function QuestionDetail() {
     const { id } = useParams<{ id: string }>();
     const [question, setQuestion] = useState<Question | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
-    const currentUserId = "user1";
+
     const user = localStorage.getItem("user");
     if (!user) return console.log("user has not stored!");
     const userObj = JSON.parse(user);
-
+    const currentUserId = userObj._id;
     const fetchDetailPost = async () => {
         if (userObj && id) {
             const response = await GetPostById(id, userObj.access_token);
@@ -64,39 +63,45 @@ export default function QuestionDetail() {
 
     const liked = question?.likes.includes(currentUserId) ?? false;
 
-    const handleLikeToggle = () => {
+    const handleLikeToggle = async () => {
         if (!question) return;
-
         const isLiked = question.likes.includes(currentUserId);
         let newLikes: string[];
-
         if (isLiked) {
             newLikes = question.likes.filter(uid => uid !== currentUserId);
         } else {
             newLikes = [...question.likes, currentUserId];
         }
-
-        setQuestion({ ...question, likes: newLikes });
+        setQuestion(prev => prev ? { ...prev, likes: newLikes } : prev);
+        try {
+            await ToggleLike(question._id,userObj._id, userObj.access_token);
+        } catch (error) {
+            console.error("Failed to toggle like", error);
+            setQuestion(prev => prev ? { ...prev, likes: question.likes } : prev);
+        }
     };
 
-    const handleAddComment = async(text: string) => {
+    const handleAddComment = async (text: string) => {
         try {
             const newComment: CommentData = {
                 content: text,
             };
             if (userObj && id) {
-                const response = await CreateComment(id, userObj._id,newComment,userObj.access_token);
-                if(response){
+                const response = await CreateComment(id, userObj._id, newComment, userObj.access_token);
+                if (response) {
                     console.log(response);
                     const newC = response.comment;
-                    setComments(prev => [...prev,newC]);
+                    setComments(prev => [...prev, newC]);
+                    setQuestion(prev =>
+                        prev ? { ...prev, comments: [...prev.comments, newC._id] } : prev
+                    );
                 }
             }
-            else{
-                if(!userObj){
+            else {
+                if (!userObj) {
                     console.log("user hasn't been stored!");
                 }
-                else{
+                else {
                     console.log("id has not been passed!");
                 }
             }
@@ -144,7 +149,7 @@ export default function QuestionDetail() {
             </Typography>
             <Stack spacing={1.5}>
                 {comments.map(c => (
-                    <CommentItem key={c.id} comment={c} />
+                    <CommentItem key={c._id} comment={c} />
                 ))}
             </Stack>
 

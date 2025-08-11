@@ -10,8 +10,7 @@ import type { Question } from "../../model/Question";
 import { CreatePost, GetAllPost, ToggleLike } from "../../service/PostService";
 import QuestionForm from "../../components/HelpSection/QuestionForm";
 import type { QuestionData } from "../../model/QuestionData";
-
-
+import { useLocation } from "react-router-dom";
 
 export default function HelpSection() {
   const [questions, setQuestions] = useState<(Question & { likes: string[] })[]>([]);
@@ -20,13 +19,12 @@ export default function HelpSection() {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"hot" | "new" | "top">("hot");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const currentUserId = "abc123";
+  
+  const location = useLocation();
   const user = localStorage.getItem("user");
   if (!user) return console.log("user has not stored!");
   const userObj = JSON.parse(user);
-
-
-
+  const currentUserId = userObj._id;
   const fetchPosts = async () => {
     if (userObj) {
       const response = await GetAllPost(userObj.access_token);
@@ -40,14 +38,11 @@ export default function HelpSection() {
     }
     else {
       console.log("user cannot be parsed to object!");
-
     }
-
   }
   useEffect(() => {
     fetchPosts();
-  }, []);
-
+  }, [location]);
   const tags = useMemo(() => {
     const s = new Set<string>();
     questions.forEach(q => q.tags.forEach(t => s.add(t)));
@@ -98,18 +93,6 @@ export default function HelpSection() {
           console.log("after like:",response);  
           setQuestions(prev => prev.map(q=> q._id === questionId ? {...q,likes: response.post.likes}:q));  
         }
-        // setQuestions(prev =>
-        //   prev.map(q =>
-        //     q._id === questionId
-        //       ? {
-        //         ...q,
-        //         likes: liked
-        //           ? [...q.likes, currentUserId]
-        //           : q.likes.filter(id => id !== currentUserId),
-        //       }
-        //       : q
-        //   )
-        // );
       }
       else{
         console.log("user has not been passed");
