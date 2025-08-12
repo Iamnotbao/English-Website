@@ -32,12 +32,12 @@ const LessonCard: React.FC<LessonCardProps> = ({ lesson, handleDelete }) => {
                 <div className="pl-[8px]">
                     <h3 className="mt-[10px] cursor-pointer">Topic: {lesson.name} </h3>
                     <p className="text-[13px] font-[500] text-[#686868] mb-[4px] mt-[2px]">Create at: {lesson.createdAt}</p>
-                    <p className="text-[14px] font-[800] text-[blue] uppercase mb-[4px] cursor-pointer">Director: {lesson.director_name}</p>
+                    <p className="text-[14px] font-[800] text-[blue] uppercase mb-[4px] cursor-pointer">Author: {lesson.director_name}</p>
                     <p className="text-[14px] uppercase mb-[4px]">Total words: {lesson.words && lesson.words.length > 0 ? (
                         lesson.words.length
                     ) : (0)}</p>
                     <div className="absolute top-[5px] right-[10px] bg-black p-0 m-0"><HalfRating rating={lesson.rating} /></div>
-                    <p className="uppercase text-[15px]">Levels: <span className="font-[700]">{lesson.level}</span></p>
+                    <p className="uppercase text-[15px]">Level: <span className="font-[700]">{lesson.level}</span></p>
                 </div>
 
                 <div className="flex flex-row justify-center"><Button onClick={handleClickOpen} variant="contained">Learn</Button></div>

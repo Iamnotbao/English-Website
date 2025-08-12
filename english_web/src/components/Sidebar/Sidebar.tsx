@@ -11,7 +11,7 @@ const Sidebar = () => {
       <h2>Dashboard</h2>
       <ul>
         <li><Link to="/lesson">Learn</Link></li>
-        <li><Link to="/pronounciation">Pronounciation</Link></li>
+        <li><Link to="/pronounciation">Pronunciation</Link></li>
         <li><Link to="/flashcard">Flash Card</Link></li>
         <li><Link to="/listening">Listening</Link></li>
         <li><Link to="/help">Q&A</Link></li>
