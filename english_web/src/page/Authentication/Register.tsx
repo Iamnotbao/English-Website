@@ -1,9 +1,9 @@
 import { Button, FormControl, FormHelperText, Input, InputLabel, Typography } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
-import BackGround from "../assets/image/background.jpg";
+import BackGround from "../../assets/image/background.jpg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AuthService from "../service/AuthService";
+import AuthService from "../../service/AuthService";
 
 const Register = () => {
   const [error, setError] = useState("");
@@ -22,14 +22,14 @@ const Register = () => {
       email: form.email.value,
       password: form.password.value
     }
-     try {
-            const response = await AuthService.register({username: user.username,email:user.email, password: user.password});
-            if(response) {
-                 navigation("/login");
-            }
-        } catch (error) {
-            console.error("Register failed:", error);
-        }
+    try {
+      const response = await AuthService.register({ username: user.username, email: user.email, password: user.password });
+      if (response) {
+        navigation("/login");
+      }
+    } catch (error) {
+      console.error("Register failed:", error);
+    }
   }
   return (
     <div className="register">
@@ -40,7 +40,7 @@ const Register = () => {
           </Typography>
           <form onSubmit={handleSubmit} className="login__content flex flex-col gap-4 w-[500px]">
             <FormControl sx={{ mb: 2 }}>
-              <InputLabel htmlFor="email" sx={{color:"white", fontSize:"20px"}}>Email</InputLabel>
+              <InputLabel htmlFor="email" sx={{ color: "white", fontSize: "20px" }}>Email</InputLabel>
               <Input
                 fullWidth
                 id="email"
@@ -48,38 +48,49 @@ const Register = () => {
                 type="email"
                 required
                 autoFocus
+                sx={{ color: "white", fontSize: "20px" }}
               />
             </FormControl>
-            <FormControl sx={{ mb: 4 }}>
-              <InputLabel htmlFor="password" sx={{color:"white", fontSize:"20px"}}>Password</InputLabel>
+
+            <FormControl sx={{ mb: 2 }}>
+              <InputLabel htmlFor="password" sx={{ color: "white", fontSize: "20px" }}>Password</InputLabel>
               <Input
                 fullWidth
                 id="password"
                 name="password"
                 type="password"
                 required
+                sx={{ color: "white", fontSize: "20px" }}
               />
-              {error && <FormHelperText sx={{ color: 'red', fontSize:"15px"}}>{error}</FormHelperText>}
             </FormControl>
-            <FormControl sx={{ mb: 4 }}>
-              <InputLabel htmlFor="confirmPassword" sx={{color:"white", fontSize:"20px"}}>Confirm Password</InputLabel>
+
+            <FormControl sx={{ mb: 2 }}>
+              <InputLabel htmlFor="confirmPassword" sx={{ color: "white", fontSize: "20px" }}>Confirm Password</InputLabel>
               <Input
                 fullWidth
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
                 required
+                sx={{ color: "white", fontSize: "20px" }}
               />
-             {error && <FormHelperText sx={{ color: 'red', fontSize:"15px"}}>{error}</FormHelperText>}
             </FormControl>
+
+            {/* Show error just once below both fields */}
+            {error && (
+              <FormHelperText sx={{ color: 'red', fontSize: "15px", mb: 2 }}>
+                {error}
+              </FormHelperText>
+            )}
+
             <FormControl sx={{ mb: 4 }}>
-              <InputLabel htmlFor="username" sx={{color:"white", fontSize:"20px"}}>Username</InputLabel>
+              <InputLabel htmlFor="username" sx={{ color: "white", fontSize: "20px" }}>Username</InputLabel>
               <Input
                 fullWidth
                 id="username"
                 name="username"
-                autoFocus
                 required
+                sx={{ color: "white", fontSize: "20px" }}
               />
             </FormControl>
             <Button type="submit" variant="contained" endIcon={<SendIcon />} className='w-[60%] self-center'>

@@ -7,9 +7,10 @@ import Listening from "../page/Dashboard/Listening";
 import Flashcard from "../page/Dashboard/Flashcard";
 import Profile from "../page/Dashboard/Profile";
 import HelpSection from "../page/Dashboard/HelpSection";
-import Login from "../authentication/Login";
-import Register from "../authentication/Register";
+import Login from "../page/Authentication/Login";
+import Register from "../page/Authentication/Register";
 import QuestionDetail from "../components/HelpSection/QuestionDetail";
+import PrivateRoute from "../components/Authentication/PrivateRoute";
 
 const routes: RouteObject[] = [
     {
@@ -23,7 +24,9 @@ const routes: RouteObject[] = [
     ,
     {
         path: "/",
-        element: (<HomePage />),
+        element: (
+            <PrivateRoute><HomePage /></PrivateRoute>
+        ),
         children: [
             {
                 index: true, element: (<Lesson />),

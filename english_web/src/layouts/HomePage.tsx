@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import SideBar from '../components/Sidebar/Sidebar';
-import Footer from '../components/Footer/Footer';
+// import Footer from '../components/Footer/Footer';
 
 const HomePage = () => {
   return (
@@ -13,7 +13,6 @@ const HomePage = () => {
           <Outlet />
         </main>
       </div>
-      <Footer />
     </>
   );
 };

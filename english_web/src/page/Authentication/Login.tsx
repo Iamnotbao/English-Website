@@ -2,11 +2,13 @@ import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, Input, Inpu
 import SendIcon from '@mui/icons-material/Send';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import BackGround from "../assets/image/background.jpg"
-import AuthService from '../service/AuthService';
+import BackGround from "../../assets/image/background.jpg"
+import AuthService from '../../service/AuthService';
+import { useAuth } from "../../hooks/useAuth";
 const Login = () => {
     const [selectedValue, setSelectedValue] = useState(true);
     const navigation = useNavigate();
+    const {login} = useAuth();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedValue(event.target.checked);
     };
@@ -20,8 +22,7 @@ const Login = () => {
         try {
             const response = await AuthService.login({username: user.username, password: user.password});
             if(response) {
-                localStorage.setItem("user", JSON.stringify(response));
-                localStorage.setItem("access_token", JSON.stringify(response.access_token));
+                login(response)
                  navigation("/");
             }
         } catch (error) {
@@ -55,6 +56,7 @@ const Login = () => {
                             name="password"
                             required
                             type="password"
+                            sx={{ color: "white", fontSize: "20px" }}
                         />
 
                     </FormControl>
