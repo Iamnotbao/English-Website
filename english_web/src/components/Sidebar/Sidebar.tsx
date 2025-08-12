@@ -85,14 +85,14 @@ const Sidebar = () => {
               alt={userObj?.name || "User"}
               sx={{ width: 32, height: 32 }}
             />
-            Profile
+         {userObj.username}
           </NavLink>
         </li>
 
         <li>
           <span
             onClick={handleLogout}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', }}
           >
             Log Out
           </span>

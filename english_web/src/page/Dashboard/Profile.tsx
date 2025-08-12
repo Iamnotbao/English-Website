@@ -45,7 +45,26 @@ const Profile = () => {
     setEditField(field);
     setTempValue(value || "");
   };
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    try {
+      if (user) {
+        const userObj = JSON.parse(user);
+        await EditUser(userObj._id, formData, userObj.access_token); 
+        const response = await GetProfileUser(userObj._id, userObj.access_token);
+        if (response) {
+          setStudent(response.user);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to update avatar", error);
+    }
+  };
   const saveChange = async (changes?: Partial<User>) => {
     if (changes) {
       setStudent((prev) => ({ ...prev, ...changes }));
@@ -77,7 +96,9 @@ const Profile = () => {
         setTempValue={setTempValue}
         startEditing={startEditing}
         saveChange={saveChange}
-        cancelChange={cancelChange} />
+        cancelChange={cancelChange}
+        handleFileChange={handleFileChange} 
+         />
       <Contact student={student}
         editField={editField}
         tempValue={tempValue}

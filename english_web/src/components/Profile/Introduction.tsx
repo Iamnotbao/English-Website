@@ -12,6 +12,7 @@ type StudentProps = {
   startEditing: (field: keyof User, value: string | undefined) => void;
   saveChange: () => void;
   cancelChange: () => void;
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function Introduction({
@@ -22,12 +23,36 @@ export default function Introduction({
   startEditing,
   saveChange,
   cancelChange,
+  handleFileChange
+
 }: StudentProps) {
   return (
     <Card sx={{ borderRadius: 3, mb: 3 }}>
       <CardContent>
         <Stack direction="row" spacing={3} alignItems="center">
-          <Avatar src={student.avatar} alt={student.username} sx={{ width: 90, height: 90 }} />
+          <Box position="relative">
+            <input
+              accept="image/*"
+              style={{ display: "none" }}
+              id="avatar-upload"
+              type="file"
+              onChange={handleFileChange}
+            />
+            <label htmlFor="avatar-upload" style={{ cursor: "pointer" }}>
+              <Avatar
+                src={student.avatar}
+                alt={student.username}
+                sx={{ width: 90, height: 90 }}
+              />
+            </label>
+            <IconButton
+              component="label"
+              htmlFor="avatar-upload"
+              sx={{ position: "absolute", bottom: 0, right: 0 }}
+            >
+              <EditIcon fontSize="small" />
+            </IconButton>
+          </Box>
           <Box sx={{ flex: 1 }}>
             <Stack direction="row" alignItems="center" spacing={1}>
               {editField === "username" ? (

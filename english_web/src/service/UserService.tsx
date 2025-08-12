@@ -31,9 +31,7 @@ export const GetProfileUser = async (user_id: string, token : string) => {
     }
 }
 
-
-
-export const EditUser = async (user_id: string, user: Partial<User>,token :string) => {
+export const EditUser = async (user_id: string, user: Partial<User>| FormData,token :string) => {
     try {
         const respone = await axios.put(`${API}/user/${user_id}`,user, {
             headers: {
@@ -45,6 +43,7 @@ export const EditUser = async (user_id: string, user: Partial<User>,token :strin
         console.log(error);
     }
 }
+
 export const DeleteLessonByUser = async (user_id: string,lesson_id:string, token : string) => {
     try {
         const respone = await axios.delete(`${API}/user/${user_id}/${lesson_id}`, {
