@@ -10,8 +10,6 @@ import Cerifications from "../../components/Profile/Certifications";
 import Achievements from "../../components/Profile/Achievements";
 import Gallery from "../../components/Profile/Gallery";
 
-
-
 const Profile = () => {
   const [student, setStudent] = useState<Partial<User>>({
     skills: [],
